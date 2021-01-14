@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function test_register_should_throw_error_with_invalid_request_method()
     {

@@ -12,6 +12,8 @@ use Tests\TestCase;
 
 class ForgotPasswordTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function test_forgot_password_feature_throws_an_error_with_invalid_email()
     {

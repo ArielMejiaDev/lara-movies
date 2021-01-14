@@ -10,11 +10,15 @@ use Tests\TestCase;
 
 class LogoutTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function test_authenticated_user_can_logout()
     {
+        $this->withoutExceptionHandling();
+
         Passport::actingAs(
-            User::factory()->create()
+            User::factory()->guest()->create()
         );
 
         $response = $this->get(route('logout'));
