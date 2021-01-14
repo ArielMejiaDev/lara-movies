@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
  */
 class Movie extends Model
 {
-    use HasFactory, Sortifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +39,7 @@ class Movie extends Model
         'likes',
     ];
 
-    protected $allowedSortFields = ['title', 'likes'];
+    public $allowedSortFields = ['title', 'likes'];
 
     /**
      * The attributes that should be cast to native types.
@@ -50,4 +50,14 @@ class Movie extends Model
         'id' => 'string',
         'availability' => 'boolean',
     ];
+
+    public function scopeTitle(Builder $query, $value)
+    {
+        $query->where('title', 'LIKE', "%{$value}%");
+    }
+
+    public function scopeAvailability(Builder $query, $value)
+    {
+        $query->where('availability', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+    }
 }

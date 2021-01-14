@@ -18,12 +18,7 @@ class MovieController extends Controller
      */
     public function index(Request $request)
     {
-        $movies = Movie::sortBy($request->get('sort'))->paginate(
-            $perPage = \request('page.size'),
-            $columns = ['*'],
-            $pageName = 'page[number]',
-            $page = \request('page.number')
-        )->appends(request()->except('page.number'));
+        $movies = Movie::applyApiFilter()->applyApiSort()->jsonPaginate();
 
         return new MovieCollection($movies);
     }

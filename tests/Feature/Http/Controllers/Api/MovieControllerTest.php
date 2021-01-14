@@ -6,6 +6,7 @@ use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\App;
 use JMac\Testing\Traits\AdditionalAssertions;
 use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
@@ -83,6 +84,7 @@ class MovieControllerTest extends TestCase
         Movie::factory()->create(['title' => 'C title']);
 
         $route = route('api.v1.movies.index', ['sort' => 'title']);
+
         $request = $this->getJson($route);
 
         $request->assertSeeInOrder([
@@ -107,6 +109,253 @@ class MovieControllerTest extends TestCase
             'B title',
             'A title',
         ]);
+    }
+
+    /** @test */
+    public function index_can_be_filter_by_title()
+    {
+        $movies = Movie::factory()->create([
+            'title' => 'Avengers End Game',
+        ]);
+
+        $movies = Movie::factory()->create([
+            'title' => 'Captain America The Winter Soldier',
+        ]);
+
+        $movies = Movie::factory()->create([
+            'title' => 'Avengers Infinity War',
+        ]);
+
+        $route = route('api.v1.movies.index', [
+            'filter[title]' => 'Captain',
+        ]);
+
+        $response = $this->getJson($route);
+
+        $response->assertOk();
+        $response->assertJsonStructure([]);
+
+        $response->assertJsonCount(1, 'data');
+
+        $response
+            ->assertDontSee($movies->first()->title)
+            ->assertDontSee($movies->find(3)->title)
+            ->assertSee($movies->find(2)->title);
+
+        $response->assertJsonFragment([
+            'data' => [
+                [
+                    'type' => 'articles',
+                    'id' => $movies->find(2)->getRouteKey(),
+                    'attributes' => [
+                        'title' => $movies->find(2)->title,
+                        'description' => $movies->find(2)->description,
+                        'image' => $movies->find(2)->image,
+                        'stock' => $movies->find(2)->stock,
+                        'rental_price' => $movies->find(2)->rental_price,
+                        'sale_price' => $movies->find(2)->sale_price,
+                        'availability' => $movies->find(2)->availability,
+                        'likes' => (int) $movies->find(2)->likes,
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.movies.show', $movies->find(2))
+                    ],
+                ]
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function index_cannot_be_filter_by_not_existing_filter()
+    {
+        $movies = Movie::factory()->times(2)->create();
+
+        $route = route('api.v1.movies.index', [
+            'filter[someColumn]' => 'Any unrelated text',
+        ]);
+
+        $response = $this->getJson($route);
+
+        $response->assertStatus(400);
+
+        $response->assertJsonFragment([
+            'message' => 'The method scopeSomeColumn does not exists in ' . Movie::class,
+        ]);
+
+    }
+
+    /** @test */
+    public function index_can_be_filter_by_availability()
+    {
+        $movies = [
+            Movie::factory()->create([
+                'availability' => true,
+            ]),
+            Movie::factory()->create([
+                'availability' => false,
+            ]),
+            Movie::factory()->create([
+                'availability' => false,
+            ]),
+        ];
+
+        $route = route('api.v1.movies.index', [
+            'filter[availability]' => true,
+        ]);
+
+        $response = $this->getJson($route);
+
+        $response->assertOk();
+        $response->assertJsonStructure([]);
+
+        $response->assertJsonCount(1, 'data');
+
+        $response
+            ->assertDontSee($movies[1]->title)
+            ->assertDontSee($movies[2]->title)
+            ->assertSee($movies[0]->title);
+
+        $response->assertJsonFragment([
+            'data' => [
+                [
+                    'type' => 'articles',
+                    'id' => $movies[0]->getRouteKey(),
+                    'attributes' => [
+                        'title' => $movies[0]->title,
+                        'description' => $movies[0]->description,
+                        'image' => $movies[0]->image,
+                        'stock' => $movies[0]->stock,
+                        'rental_price' => $movies[0]->rental_price,
+                        'sale_price' => $movies[0]->sale_price,
+                        'availability' => $movies[0]->availability,
+                        'likes' => (int) $movies[0]->likes,
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.movies.show', $movies[0])
+                    ],
+                ]
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function index_can_be_filter_by_availability_with_truly_and_falsy_values()
+    {
+        $movies = [
+            Movie::factory()->create([
+                'availability' => true,
+            ]),
+            Movie::factory()->create([
+                'availability' => false,
+            ]),
+            Movie::factory()->create([
+                'availability' => false,
+            ]),
+        ];
+
+        $route = route('api.v1.movies.index', [
+            'filter[availability]' => 1,
+        ]);
+
+        $response = $this->getJson($route);
+
+        $response->assertOk();
+        $response->assertJsonStructure([]);
+
+        $response->assertJsonCount(1, 'data');
+
+        $response
+            ->assertDontSee($movies[1]->title)
+            ->assertDontSee($movies[2]->title)
+            ->assertSee($movies[0]->title);
+
+        $response->assertJsonFragment([
+            'data' => [
+                [
+                    'type' => 'articles',
+                    'id' => $movies[0]->getRouteKey(),
+                    'attributes' => [
+                        'title' => $movies[0]->title,
+                        'description' => $movies[0]->description,
+                        'image' => $movies[0]->image,
+                        'stock' => $movies[0]->stock,
+                        'rental_price' => $movies[0]->rental_price,
+                        'sale_price' => $movies[0]->sale_price,
+                        'availability' => $movies[0]->availability,
+                        'likes' => (int) $movies[0]->likes,
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.movies.show', $movies[0])
+                    ],
+                ]
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function index_can_be_filter_by_availability_with_string_values()
+    {
+        $movies = [
+            Movie::factory()->create([
+                'availability' => false,
+            ]),
+            Movie::factory()->create([
+                'availability' => true,
+            ]),
+            Movie::factory()->create([
+                'availability' => true,
+            ]),
+        ];
+
+        $route = route('api.v1.movies.index', [
+            'filter[availability]' => 'false',
+        ]);
+
+        $response = $this->getJson($route);
+
+        $response->assertOk();
+        $response->assertJsonStructure([]);
+
+        $response->assertJsonCount(1, 'data');
+
+        $response
+            ->assertDontSee($movies[1]->title)
+            ->assertDontSee($movies[2]->title)
+            ->assertSee($movies[0]->title);
+
+        $response->assertJsonFragment([
+            'data' => [
+                [
+                    'type' => 'articles',
+                    'id' => $movies[0]->getRouteKey(),
+                    'attributes' => [
+                        'title' => $movies[0]->title,
+                        'description' => $movies[0]->description,
+                        'image' => $movies[0]->image,
+                        'stock' => $movies[0]->stock,
+                        'rental_price' => $movies[0]->rental_price,
+                        'sale_price' => $movies[0]->sale_price,
+                        'availability' => $movies[0]->availability,
+                        'likes' => (int) $movies[0]->likes,
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.movies.show', $movies[0])
+                    ],
+                ]
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function index_can_be_filter_only_by_admins()
+    {
+        $this->markTestSkipped();
+    }
+
+    /** @test */
+    public function index_cannot_be_filter_only_by_guests()
+    {
+        $this->markTestSkipped();
     }
 
     /**
