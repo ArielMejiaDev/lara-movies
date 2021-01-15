@@ -25,7 +25,7 @@ class LoginTest extends TestCase
     /** @test */
     public function test_login_should_throw_error_with_a_user_that_does_not_exists()
     {
-        $response = $this->postJson(route('login'), [
+        $response = $this->jsonApi()->post(route('login'), [
             'email' => 'john@doe.com',
             'password' => 'password',
         ]);
@@ -38,7 +38,7 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->postJson(route('login'), [
+        $response = $this->jsonApi()->post(route('login'), [
             'email' => $user->email,
             'password' => 'somerandomtext',
         ]);

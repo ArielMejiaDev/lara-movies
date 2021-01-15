@@ -28,7 +28,7 @@ class MovieResource extends JsonResource
                 'likes' => (int) $this->resource->likes,
             ],
             'links' => [
-                'self' => route('api.v1.movies.show', $this->resource)
+                'self' => route('api:v1:movies.show', $this->resource)
             ],
         ];
     }

@@ -19,7 +19,7 @@ class ForgotPasswordTest extends TestCase
     {
         Notification::fake();
 
-        $response = $this->postJson(route('forgot-password'), [
+        $response = $this->jsonApi()->post(route('forgot-password'), [
             'email' => 'not@registeremail.com',
         ]);
 
@@ -33,7 +33,7 @@ class ForgotPasswordTest extends TestCase
     {
         Notification::fake();
 
-        $response = $this->postJson(route('forgot-password'), [
+        $response = $this->jsonApi()->post(route('forgot-password'), [
             'email' => 'notregisteremail',
         ]);
 
@@ -49,7 +49,7 @@ class ForgotPasswordTest extends TestCase
 
         Notification::fake();
 
-        $response = $this->postJson(route('forgot-password'), [
+        $response = $this->jsonApi()->post(route('forgot-password'), [
             'email' => $user->email,
         ]);
 

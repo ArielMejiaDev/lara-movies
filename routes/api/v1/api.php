@@ -1,5 +1,6 @@
 <?php
 
+use CloudCreativity\LaravelJsonApi\Facades\JsonApi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,14 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+JsonApi::register('v1')->routes(function($api) {
+    $api->resource('movies');
+});
+
 Route::prefix('v1')->group(function() {
 
-    Route::apiResource('movies', App\Http\Controllers\Api\MovieController::class, [
-        'names' => [
-            'index' => 'api.v1.movies.index',
-            'show' => 'api.v1.movies.show',
-        ]
-    ]);
+//    Route::apiResource('movies', App\Http\Controllers\Api\MovieController::class, [
+//        'names' => [
+//            'index' => 'api:v1:movies.index',
+//            'show' => 'api:v1:movies.show',
+//        ]
+//    ]);
 
     Route::apiResource('rent', App\Http\Controllers\Api\RentController::class);
 

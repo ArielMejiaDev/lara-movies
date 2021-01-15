@@ -17,7 +17,7 @@ class MovieCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'links' => [
-                'self' => route('api.v1.movies.index'),
+                'self' => route('api:v1:movies.index'),
             ]
         ];
     }

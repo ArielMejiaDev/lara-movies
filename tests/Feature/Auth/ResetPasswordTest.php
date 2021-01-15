@@ -17,7 +17,7 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function test_reset_password_feature_throws_validation_errors_with_invalid_data()
     {
-        $resetRequest = $this->postJson(route('reset-password'), [
+        $resetRequest = $this->jsonApi()->post(route('reset-password'), [
             'token' => '',
             'password' => '',
             'password_confirm' => '',
@@ -29,7 +29,7 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function test_reset_password_feature_throws_error_404_with_not_existing_token()
     {
-        $resetRequest = $this->postJson(route('reset-password'), [
+        $resetRequest = $this->jsonApi()->post(route('reset-password'), [
             'token' => 'somerandomstring',
             'password' => 'password',
             'password_confirm' => 'password',
@@ -49,7 +49,7 @@ class ResetPasswordTest extends TestCase
 
         Notification::fake();
 
-        $response = $this->postJson(route('forgot-password'), [
+        $response = $this->jsonApi()->post(route('forgot-password'), [
             'email' => $user->email,
         ]);
 
@@ -58,7 +58,7 @@ class ResetPasswordTest extends TestCase
             ForgotPasswordNotification::class,
             function ($notification) {
 
-                $resetRequest = $this->postJson(route('reset-password'), [
+                $resetRequest = $this->jsonApi()->post(route('reset-password'), [
                     'token' => $notification->token,
                     'password' => 'password',
                     'password_confirm' => 'password',

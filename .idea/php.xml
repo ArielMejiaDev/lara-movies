@@ -128,6 +128,9 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
       <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vendor/jasonmccreary/laravel-test-assertions" />
+      <path value="$PROJECT_DIR$/vendor/cloudcreativity/laravel-json-api" />
+      <path value="$PROJECT_DIR$/vendor/neomerx/json-api" />
+      <path value="$PROJECT_DIR$/vendor/cloudcreativity/json-api-testing" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
