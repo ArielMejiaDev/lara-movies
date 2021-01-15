@@ -39,8 +39,6 @@ class Movie extends Model
         'likes',
     ];
 
-    public $allowedSortFields = ['title', 'likes'];
-
     /**
      * The attributes that should be cast to native types.
      *

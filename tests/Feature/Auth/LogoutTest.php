@@ -21,7 +21,7 @@ class LogoutTest extends TestCase
             User::factory()->guest()->create()
         );
 
-        $response = $this->get(route('logout'));
+        $response = $this->getJson(route('logout'));
 
         $response->assertStatus(200);
 

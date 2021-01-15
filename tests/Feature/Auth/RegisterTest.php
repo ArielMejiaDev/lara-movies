@@ -14,7 +14,7 @@ class RegisterTest extends TestCase
     /** @test */
     public function test_register_should_throw_error_with_invalid_request_method()
     {
-        $response = $this->get(route('register'));
+        $response = $this->getJson(route('register'));
 
         $response->assertStatus(405);
     }
@@ -22,7 +22,7 @@ class RegisterTest extends TestCase
     /** @test */
     public function test_register_should_throw_error_with_invalid_data()
     {
-        $response = $this->jsonApi()->post(route('register'), [
+        $response = $this->postJson(route('register'), [
             'name' => '',
             'email' => '',
             'password' => '',
@@ -43,7 +43,7 @@ class RegisterTest extends TestCase
             'password_confirm' => 'password',
         ];
 
-        $response = $this->jsonApi()->post(route('register'), $data);
+        $response = $this->postJson(route('register'), $data);
 
         $response->assertJsonMissingValidationErrors(['name', 'email', 'password']);
 

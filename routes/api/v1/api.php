@@ -20,13 +20,6 @@ JsonApi::register('v1')->routes(function($api) {
 
 Route::prefix('v1')->group(function() {
 
-//    Route::apiResource('movies', App\Http\Controllers\Api\MovieController::class, [
-//        'names' => [
-//            'index' => 'api:v1:movies.index',
-//            'show' => 'api:v1:movies.show',
-//        ]
-//    ]);
-
     Route::apiResource('rent', App\Http\Controllers\Api\RentController::class);
 
     Route::apiResource('penalty', App\Http\Controllers\Api\PenaltyController::class);

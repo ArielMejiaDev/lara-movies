@@ -3,6 +3,7 @@
 namespace App\JsonApi\Movies;
 
 use CloudCreativity\LaravelJsonApi\Validation\AbstractValidators;
+use Illuminate\Validation\Rule;
 
 class Validators extends AbstractValidators
 {
@@ -43,7 +44,14 @@ class Validators extends AbstractValidators
     protected function rules($record, array $data): array
     {
         return [
-            //
+            'title' => ['required', Rule::unique('movies')->ignore($record)],
+            'description' => ['required'],
+            'image' => ['required'],
+            'stock' => ['required'],
+            'rental_price' => ['required'],
+            'sale_price' => ['required'],
+            'availability' => ['required'],
+            'likes' => ['nullable'],
         ];
     }
 
