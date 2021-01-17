@@ -1,9 +1,7 @@
 <?php
 
-namespace App\JsonApi\Purchases;
+namespace App\JsonApi\Users;
 
-use App\Models\Movie;
-use App\Models\User;
 use CloudCreativity\LaravelJsonApi\Eloquent\AbstractAdapter;
 use CloudCreativity\LaravelJsonApi\Pagination\StandardStrategy;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,11 +24,6 @@ class Adapter extends AbstractAdapter
      */
     protected $filterScopes = [];
 
-    protected $includePaths = [
-        'users' => 'user',
-        'movies' => 'movie'
-    ];
-
     /**
      * Adapter constructor.
      *
@@ -38,7 +31,7 @@ class Adapter extends AbstractAdapter
      */
     public function __construct(StandardStrategy $paging)
     {
-        parent::__construct(new \App\Models\Purchase(), $paging);
+        parent::__construct(new \App\Models\User(), $paging);
     }
 
     /**
@@ -51,13 +44,4 @@ class Adapter extends AbstractAdapter
         $this->filterWithScopes($query, $filters);
     }
 
-    public function users()
-    {
-        return $this->belongsTo('user');
-    }
-
-    public function movies()
-    {
-        return $this->belongsTo('movie');
-    }
 }

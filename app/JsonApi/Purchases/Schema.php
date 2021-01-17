@@ -30,9 +30,32 @@ class Schema extends SchemaProvider
     public function getAttributes($resource)
     {
         return [
-            'amount' => $resource->amount,
+            'user_id' => $resource->user_id,
+            'movie_id' => $resource->movie_id,
             'createdAt' => $resource->created_at,
             'updatedAt' => $resource->updated_at,
+        ];
+    }
+
+    public function getRelationships($purchase, $isPrimary, array $includeRelationships)
+    {
+        return [
+            'users' => [
+                self::SHOW_SELF => true,
+                self::SHOW_RELATED => true,
+                self::SHOW_DATA => isset($includeRelationships['users']),
+                self::DATA => function () use ($purchase) {
+                    return $purchase->user;
+                },
+            ],
+            'movies' => [
+                self::SHOW_SELF => true,
+                self::SHOW_RELATED => true,
+                self::SHOW_DATA => isset($includeRelationships['movies']),
+                self::DATA => function () use ($purchase) {
+                    return $purchase->movie;
+                },
+            ],
         ];
     }
 }

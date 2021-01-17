@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->role->name === 'Admin';
     }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

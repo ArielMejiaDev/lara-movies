@@ -19,7 +19,6 @@ class CreatePurchasesTable extends Migration
             $table->id();
             $table->foreignId('movie_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('amount');
             $table->timestamps();
         });
 

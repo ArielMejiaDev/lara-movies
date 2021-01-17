@@ -21,7 +21,10 @@ JsonApi::register('v1')->routes(function($api) {
 
     $api->resource('likes')->except('update');
 
-    $api->resource('purchases');
+    $api->resource('purchases')->except('update', 'delete')->relationships(function($api) {
+        $api->hasOne('movies')->except('replace');
+        $api->hasOne('users')->except('replace');
+    });
 });
 
 //Route::prefix('v1')->group(function() {
