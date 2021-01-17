@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Movie;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class MovieSeeder extends Seeder
@@ -14,6 +15,10 @@ class MovieSeeder extends Seeder
      */
     public function run()
     {
-        Movie::factory()->count(5)->create();
+        $movies = Movie::factory()->hasPurchases(3)->count(25)->create();
+
+        $movies->each(function ($movie) {
+            $movie->likes()->create(['user_id' => User::inRandomOrder()->first()->id]);
+        });
     }
 }

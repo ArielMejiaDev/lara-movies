@@ -37,9 +37,22 @@ class Schema extends SchemaProvider
             'rental_price' => $resource->rental_price,
             'sale_price' => $resource->sale_price,
             'availability' => $resource->availability,
-            'likes' => (int) $resource->likes,
-//            'createdAt' => $resource->created_at,
-//            'updatedAt' => $resource->updated_at,
+            'likes_counter' => $resource->likes()->count(),
+            'liked_by_user' => $resource->liked(),
+        ];
+    }
+
+    public function getRelationships($resource, $isPrimary, array $includeRelationships)
+    {
+        return [
+            'likes' => [
+                self::SHOW_RELATED => true,
+                self::SHOW_SELF => true,
+                self::SHOW_DATA => isset($includeRelationships['likes']),
+                self::DATA => function() use($resource) {
+                    return $resource->likes;
+                }
+            ]
         ];
     }
 }

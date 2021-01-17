@@ -27,7 +27,7 @@ class PurchaseFactory extends Factory
         return [
             'movie_id' => Movie::factory(),
             'user_id' => User::factory(),
-            'amount' => $this->faker->word,
+            'amount' => $this->faker->numberBetween(30, 50),
         ];
     }
 }

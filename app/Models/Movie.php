@@ -36,7 +36,6 @@ class Movie extends Model
         'rental_price',
         'sale_price',
         'availability',
-        'likes',
     ];
 
     /**
@@ -57,5 +56,20 @@ class Movie extends Model
     public function scopeAvailability(Builder $query, $value)
     {
         $query->where('availability', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function liked()
+    {
+        return $this->likes()->where('user_id', optional(request()->user('api'))->id)->count();
     }
 }

@@ -9,9 +9,9 @@ use Tests\TestCase;
 class {{ class }} extends TestCase
 {
 
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
-    /** @return void */
+    /** @test */
     public function it_tests_an_example()
     {
         $response = $this->get('/');

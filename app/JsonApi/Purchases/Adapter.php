@@ -1,8 +1,7 @@
 <?php
 
-namespace App\JsonApi\Movies;
+namespace App\JsonApi\Purchases;
 
-use App\Models\Like;
 use CloudCreativity\LaravelJsonApi\Eloquent\AbstractAdapter;
 use CloudCreativity\LaravelJsonApi\Pagination\StandardStrategy;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,7 +31,7 @@ class Adapter extends AbstractAdapter
      */
     public function __construct(StandardStrategy $paging)
     {
-        parent::__construct(new \App\Models\Movie(), $paging);
+        parent::__construct(new \App\Models\Purchase(), $paging);
     }
 
     /**
@@ -43,17 +42,6 @@ class Adapter extends AbstractAdapter
     protected function filter($query, Collection $filters)
     {
         $this->filterWithScopes($query, $filters);
-    }
-
-    public function likes()
-    {
-        return $this->hasMany();
-    }
-
-    protected function sortByPopularity($query, $direction): void
-    {
-        $query->withCount('likes')
-            ->orderBy('likes_count', $direction);
     }
 
 }

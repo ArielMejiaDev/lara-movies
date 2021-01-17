@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\JsonApi\Movie;
 
+use App\Models\Like;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -74,10 +75,44 @@ class MovieIndexTest extends TestCase
     }
 
     /** @test */
+    public function it_test_index_can_be_sort_by_popularity_desc()
+    {
+        $secondMovie = Movie::factory()->hasLikes(5)->create(['title' => 'The Avengers Age of Ultron.']);
+        $firstMovie = Movie::factory()->hasLikes(10)->create(['title' => 'The Avengers.']);
+        $thirdMovie = Movie::factory()->hasLikes(3)->create(['title' => 'Guardians of the Galaxy.']);
+
+        $route = route('api:v1:movies.index', ['sort' => '-popularity']);
+
+        $request = $this->jsonApi()->get($route);
+
+        $request->assertSeeInOrder([
+            $firstMovie->title,
+            $secondMovie->title,
+            $thirdMovie->title,
+        ]);
+    }
+
+    /** @test */
+    public function it_test_index_can_be_sort_by_popularity_asc()
+    {
+        $secondMovie = Movie::factory()->hasLikes(5)->create(['title' => 'The Avengers Age of Ultron.']);
+        $firstMovie = Movie::factory()->hasLikes(10)->create(['title' => 'The Avengers.']);
+        $thirdMovie = Movie::factory()->hasLikes(3)->create(['title' => 'Guardians of the Galaxy.']);
+
+        $route = route('api:v1:movies.index', ['sort' => 'popularity']);
+
+        $request = $this->jsonApi()->get($route);
+
+        $request->assertSeeInOrder([
+            $thirdMovie->title,
+            $secondMovie->title,
+            $firstMovie->title,
+        ]);
+    }
+
+    /** @test */
     public function it_test_index_can_be_filter_by_title()
     {
-        $this->withoutExceptionHandling();
-
         $movies = [
             Movie::factory()->create([
                 'title' => 'Avengers End Game',
@@ -108,7 +143,7 @@ class MovieIndexTest extends TestCase
             ->assertDontSee($movies[2]->title)
             ->assertSee($movies[1]->title);
 
-        $response->assertJsonFragment([
+        $response->assertJson([
             'data' => [
                 [
                     'type' => 'movies',
@@ -121,7 +156,8 @@ class MovieIndexTest extends TestCase
                         'rental_price' => $movies[1]->rental_price,
                         'sale_price' => $movies[1]->sale_price,
                         'availability' => $movies[1]->availability,
-                        'likes' => (int) $movies[1]->likes,
+                        'likes_counter' => (int) $movies[1]->likes()->count(),
+                        'liked_by_user' => 0,
                     ],
                     'links' => [
                         'self' => route('api:v1:movies.read', $movies[1])
@@ -177,7 +213,7 @@ class MovieIndexTest extends TestCase
             ->assertDontSee($movies[2]->title)
             ->assertSee($movies[0]->title);
 
-        $response->assertJsonFragment([
+        $response->assertJson([
             'data' => [
                 [
                     'type' => 'movies',
@@ -190,7 +226,8 @@ class MovieIndexTest extends TestCase
                         'rental_price' => $movies[0]->rental_price,
                         'sale_price' => $movies[0]->sale_price,
                         'availability' => $movies[0]->availability,
-                        'likes' => (int) $movies[0]->likes,
+                        'likes_counter' => (int) $movies[0]->likes()->count(),
+                        'liked_by_user' => 0,
                     ],
                     'links' => [
                         'self' => route('api:v1:movies.read', $movies[0])
@@ -231,7 +268,7 @@ class MovieIndexTest extends TestCase
             ->assertDontSee($movies[2]->title)
             ->assertSee($movies[0]->title);
 
-        $response->assertJsonFragment([
+        $response->assertJson([
             'data' => [
                 [
                     'type' => 'movies',
@@ -244,7 +281,8 @@ class MovieIndexTest extends TestCase
                         'rental_price' => $movies[0]->rental_price,
                         'sale_price' => $movies[0]->sale_price,
                         'availability' => $movies[0]->availability,
-                        'likes' => (int) $movies[0]->likes,
+                        'likes_counter' => (int) $movies[0]->likes()->count(),
+                        'liked_by_user' => 0,
                     ],
                     'links' => [
                         'self' => route('api:v1:movies.read', $movies[0])
@@ -285,7 +323,7 @@ class MovieIndexTest extends TestCase
             ->assertDontSee($movies[2]->title)
             ->assertSee($movies[0]->title);
 
-        $response->assertJsonFragment([
+        $response->assertJson([
             'data' => [
                 [
                     'type' => 'movies',
@@ -298,7 +336,8 @@ class MovieIndexTest extends TestCase
                         'rental_price' => $movies[0]->rental_price,
                         'sale_price' => $movies[0]->sale_price,
                         'availability' => $movies[0]->availability,
-                        'likes' => (int) $movies[0]->likes,
+                        'likes_counter' => (int) $movies[0]->likes()->count(),
+                        'liked_by_user' => 0,
                     ],
                     'links' => [
                         'self' => route('api:v1:movies.read', $movies[0])
@@ -351,4 +390,24 @@ class MovieIndexTest extends TestCase
 
     }
 
+    /** @test */
+    public function it_test_index_can_include_likes_relationship()
+    {
+        /** @var Like $like */
+        $like = Like::factory()->create();
+
+        $route = route('api:v1:movies.index');
+
+        $response = $this->jsonApi()->includePaths('likes')->get($route);
+
+        $response->assertSee($like->id);
+
+        $response->assertJsonFragment([
+            'related' => route('api:v1:movies.relationships.likes', $like)
+        ]);
+
+        $response->assertJsonFragment([
+            'self' => route('api:v1:movies.relationships.likes.read', $like)
+        ]);
+    }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\JsonApi\Movies;
+namespace App\JsonApi\Likes;
 
+use App\Rules\ExistsALikeBefore;
 use CloudCreativity\LaravelJsonApi\Validation\AbstractValidators;
 use Illuminate\Validation\Rule;
 
@@ -14,7 +15,7 @@ class Validators extends AbstractValidators
      * @var string[]|null
      *      the allowed paths, an empty array for none allowed, or null to allow all paths.
      */
-    protected $allowedIncludePaths = ['likes'];
+    protected $allowedIncludePaths = [];
 
     /**
      * The sort field names a client is allowed send.
@@ -22,7 +23,7 @@ class Validators extends AbstractValidators
      * @var string[]|null
      *      the allowed fields, an empty array for none allowed, or null to allow all fields.
      */
-    protected $allowedSortParameters = ['title', 'popularity'];
+    protected $allowedSortParameters = [];
 
     /**
      * The filters a client is allowed send.
@@ -30,7 +31,7 @@ class Validators extends AbstractValidators
      * @var string[]|null
      *      the allowed filters, an empty array for none allowed, or null to allow all.
      */
-    protected $allowedFilteringParameters = ['title', 'availability'];
+    protected $allowedFilteringParameters = [];
 
     /**
      * Get resource validation rules.
@@ -44,14 +45,8 @@ class Validators extends AbstractValidators
     protected function rules($record, array $data): array
     {
         return [
-            'title' => ['required', Rule::unique('movies')->ignore($record)],
-            'description' => ['required'],
-            'image' => ['required'],
-            'stock' => ['required'],
-            'rental_price' => ['required'],
-            'sale_price' => ['required'],
-            'availability' => ['required'],
-            'likes' => ['nullable'],
+            'user_id' => ['required', Rule::exists('users', 'id'), new ExistsALikeBefore()],
+            'movie_id' => ['required', Rule::exists('movies', 'id')],
         ];
     }
 

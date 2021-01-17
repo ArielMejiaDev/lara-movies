@@ -40,6 +40,20 @@ class MovieDeleteTest extends TestCase
     }
 
     /** @test */
+    public function it_tests_a_movie_that_does_not_exists_cannot_be_deleted()
+    {
+        Passport::actingAs(
+            User::factory()->admin()->create(),
+        );
+
+        // not creating a movie
+
+        $response = $this->delete(route('api:v1:movies.delete', 1));
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    /** @test */
     public function it_tests_a_movie_delete_behaves_as_expected()
     {
         Passport::actingAs(

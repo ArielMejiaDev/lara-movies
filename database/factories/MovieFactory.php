@@ -30,7 +30,6 @@ class MovieFactory extends Factory
             'rental_price' => $this->faker->word,
             'sale_price' => $this->faker->word,
             'availability' => $this->faker->boolean,
-            'likes' => $this->faker->numberBetween(20, 100),
         ];
     }
 }

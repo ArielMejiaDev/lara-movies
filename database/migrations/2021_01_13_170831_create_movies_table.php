@@ -22,7 +22,6 @@ class CreateMoviesTable extends Migration
             $table->string('rental_price');
             $table->string('sale_price');
             $table->boolean('availability');
-            $table->integer('likes')->nullable();
             $table->timestamps();
         });
     }

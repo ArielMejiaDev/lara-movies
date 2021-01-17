@@ -15,19 +15,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 JsonApi::register('v1')->routes(function($api) {
-    $api->resource('movies');
+    $api->resource('movies')->relationships(function($api) {
+        $api->hasMany('likes')->except('replace');
+    });
+
+    $api->resource('likes')->except('update');
+
+    $api->resource('purchases');
 });
 
-Route::prefix('v1')->group(function() {
-
-    Route::apiResource('rent', App\Http\Controllers\Api\RentController::class);
-
-    Route::apiResource('penalty', App\Http\Controllers\Api\PenaltyController::class);
-
-    Route::apiResource('purchase', App\Http\Controllers\Api\PurchaseController::class);
-
-    Route::apiResource('like', App\Http\Controllers\Api\LikeController::class);
-
-    Route::apiResource('role', App\Http\Controllers\Api\RoleController::class);
-
-});
+//Route::prefix('v1')->group(function() {
+//
+//    Route::apiResource('rent', App\Http\Controllers\Api\RentController::class);
+//
+//    Route::apiResource('penalty', App\Http\Controllers\Api\PenaltyController::class);
+//
+//    Route::apiResource('purchase', App\Http\Controllers\Api\PurchaseController::class);
+//
+//    Route::apiResource('like', App\Http\Controllers\Api\LikeController::class);
+//
+//    Route::apiResource('role', App\Http\Controllers\Api\RoleController::class);
+//
+//});

@@ -66,7 +66,10 @@ return [
     | `'posts' => App\Post::class`
     */
     'resources' => [
+        'users' => \App\Models\User::class,
         'movies' => \App\Models\Movie::class,
+        'likes' => \App\Models\Like::class,
+        'purchases' => \App\Models\Purchase::class,
     ],
 
     /*
