@@ -18,9 +18,9 @@ class CreateMoviesTable extends Migration
             $table->string('title');
             $table->longText('description');
             $table->string('image');
-            $table->string('stock');
-            $table->string('rental_price');
-            $table->string('sale_price');
+            $table->integer('stock');
+            $table->integer('rental_price');
+            $table->integer('sale_price');
             $table->boolean('availability');
             $table->timestamps();
         });

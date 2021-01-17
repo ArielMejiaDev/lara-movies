@@ -3,11 +3,13 @@
 namespace App\JsonApi\Purchases;
 
 use App\Models\Movie;
+use App\Models\Purchase;
 use App\Models\User;
 use CloudCreativity\LaravelJsonApi\Eloquent\AbstractAdapter;
 use CloudCreativity\LaravelJsonApi\Pagination\StandardStrategy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class Adapter extends AbstractAdapter
 {
@@ -59,5 +61,13 @@ class Adapter extends AbstractAdapter
     public function movies()
     {
         return $this->belongsTo('movie');
+    }
+
+    protected function creating(Purchase $purchase): void
+    {
+        $purchase->movie()->update([
+            'stock' => ((int) $purchase->movie->stock - 1)
+        ]);
+        $purchase->user_id = request()->user('api')->getRouteKey();
     }
 }

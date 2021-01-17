@@ -45,6 +45,7 @@ class Movie extends Model
      */
     protected $casts = [
         'id' => 'string',
+        'stock' => 'integer',
         'availability' => 'boolean',
     ];
 

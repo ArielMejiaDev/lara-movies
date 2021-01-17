@@ -41,7 +41,7 @@ class PurchasePolicy
      */
     public function create(User $user)
     {
-        //
+        return auth()->check();
     }
 
     /**

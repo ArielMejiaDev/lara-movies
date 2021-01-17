@@ -2,7 +2,9 @@
 
 namespace App\JsonApi\Purchases;
 
+use App\Rules\ExistsMoviesInStock;
 use CloudCreativity\LaravelJsonApi\Validation\AbstractValidators;
+use Illuminate\Validation\Rule;
 
 class Validators extends AbstractValidators
 {
@@ -43,7 +45,7 @@ class Validators extends AbstractValidators
     protected function rules($record, array $data): array
     {
         return [
-            //
+            'movie_id' => ['required', Rule::exists('movies', 'id'), new ExistsMoviesInStock() ]
         ];
     }
 

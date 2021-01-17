@@ -39,7 +39,7 @@ class Authorizer extends AbstractAuthorizer
      */
     public function create($type, $request)
     {
-        // TODO: Implement create() method.
+        $this->can('create', $type);
     }
 
     /**

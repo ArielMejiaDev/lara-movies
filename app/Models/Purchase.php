@@ -25,7 +25,6 @@ class Purchase extends Model
     protected $fillable = [
         'movie_id',
         'user_id',
-        'amount',
     ];
 
     /**

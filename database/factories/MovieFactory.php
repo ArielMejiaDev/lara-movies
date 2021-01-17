@@ -26,9 +26,9 @@ class MovieFactory extends Factory
             'title' => $this->faker->sentence(4),
             'description' => $this->faker->text,
             'image' => $this->faker->word,
-            'stock' => $this->faker->word,
-            'rental_price' => $this->faker->word,
-            'sale_price' => $this->faker->word,
+            'stock' => $this->faker->numberBetween(25, 60),
+            'rental_price' => $this->faker->numberBetween(25, 60),
+            'sale_price' => $this->faker->numberBetween(25, 60),
             'availability' => $this->faker->boolean,
         ];
     }

@@ -152,7 +152,7 @@ class MovieUpdateTest extends TestCase
         $title = $this->faker->sentence(4);
         $description = $this->faker->text;
         $image = $this->faker->word;
-        $stock = $this->faker->word;
+        $stock = $this->faker->numberBetween(25, 50);
         $rental_price = $this->faker->word;
         $sale_price = $this->faker->word;
         $availability = $this->faker->boolean;
