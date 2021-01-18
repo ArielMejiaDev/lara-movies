@@ -54,17 +54,17 @@ class PurchaseShowTest extends TestCase
         $response->assertOk();
 
         $response->assertJsonFragment([
-            "relationships" => [
-                "users" => [
-                    "links" => [
-                        "self" => route('api:v1:purchases.relationships.users.read', $purchase),
-                        "related" => route('api:v1:purchases.relationships.users', $purchase)
+            'relationships' => [
+                'users' => [
+                    'links' => [
+                        'self' => route('api:v1:purchases.relationships.users.read', $purchase),
+                        'related' => route('api:v1:purchases.relationships.users', $purchase)
                     ]
                 ],
-                "movies" => [
-                    "links" => [
-                        "self" => route('api:v1:purchases.relationships.movies.read', $purchase),
-                        "related" => route('api:v1:purchases.relationships.movies', $purchase)
+                'movies' => [
+                    'links' => [
+                        'self' => route('api:v1:purchases.relationships.movies.read', $purchase),
+                        'related' => route('api:v1:purchases.relationships.movies', $purchase)
                     ]
                 ]
             ]
@@ -86,14 +86,14 @@ class PurchaseShowTest extends TestCase
         $response->assertOk();
 
         $response->assertJson([
-            "included" => [
+            'included' => [
                 [
-                    "type" => "users",
-                    "id" => $purchase->user_id,
+                    'type' => 'users',
+                    'id' => $purchase->user_id,
                 ],
                 [
-                    "type" => "movies",
-                    "id" => $purchase->movie_id,
+                    'type' => 'movies',
+                    'id' => $purchase->movie_id,
                 ],
             ]
         ]);

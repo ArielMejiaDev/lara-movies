@@ -18,7 +18,7 @@ class PurchaseIndexTest extends TestCase
     /** @test */
     public function it_tests_an_unauthenticated_request_cannot_see_purchase_index()
     {
-        $movies = Movie::factory()->times(5)->hasPurchases(3)->create();
+        Movie::factory()->times(5)->hasPurchases(3)->create();
 
         $route = route('api:v1:purchases.index');
 
@@ -32,7 +32,7 @@ class PurchaseIndexTest extends TestCase
     {
         Passport::actingAs(User::factory()->guest()->create());
 
-        $movies = Movie::factory()->times(5)->hasPurchases(3)->create();
+        Movie::factory()->times(5)->hasPurchases(3)->create();
 
         $route = route('api:v1:purchases.index');
 
@@ -46,32 +46,32 @@ class PurchaseIndexTest extends TestCase
     {
         Passport::actingAs(User::factory()->admin()->create());
 
-        $movies = Movie::factory()->times(5)->hasPurchases(3)->create();
+        Movie::factory()->times(5)->hasPurchases(3)->create();
 
         $route = route('api:v1:purchases.index', [
-            "page[number]" => 2,
-            "page[size]" => 3,
+            'page[number]' => 2,
+            'page[size]' => 3,
         ]);
 
         $response = $this->jsonApi()->get($route);
 
         $response->assertJsonFragment([
-            "links" => [
-                "first" => route('api:v1:purchases.index', [
-                    "page[number]" => 1,
-                    "page[size]" => 3,
+            'links' => [
+                'first' => route('api:v1:purchases.index', [
+                    'page[number]' => 1,
+                    'page[size]' => 3,
                 ]),
-                "prev" => route('api:v1:purchases.index', [
-                    "page[number]" => 1,
-                    "page[size]" => 3,
+                'prev' => route('api:v1:purchases.index', [
+                    'page[number]' => 1,
+                    'page[size]' => 3,
                 ]),
-                "next" => route('api:v1:purchases.index', [
-                    "page[number]" => 3,
-                    "page[size]" => 3,
+                'next' => route('api:v1:purchases.index', [
+                    'page[number]' => 3,
+                    'page[size]' => 3,
                 ]),
-                "last" => route('api:v1:purchases.index', [
-                    "page[number]" => 5,
-                    "page[size]" => 3,
+                'last' => route('api:v1:purchases.index', [
+                    'page[number]' => 5,
+                    'page[size]' => 3,
                 ]),
             ]
         ]);

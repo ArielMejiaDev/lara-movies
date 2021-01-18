@@ -63,14 +63,8 @@ class MovieShowTest extends TestCase
         $response->assertJson([
             'included' => [
                 [
-                    'attributes' => [
-                        'user' => [
-                            'name' => $like->user->name,
-                        ],
-                        'movie' => [
-                            'title' => $like->movie->title,
-                        ],
-                    ]
+                    'type' => 'likes',
+                    'id' => $like->id,
                 ]
             ]
         ]);

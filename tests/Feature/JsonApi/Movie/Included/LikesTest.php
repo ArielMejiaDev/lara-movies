@@ -44,9 +44,9 @@ class LikesTest extends TestCase
 
         $response->assertSee($like->id);
 
-        $response->assertSee($like->user->name);
+        $response->assertSee(['createdAt' => $like->created_at->toISOString()]);
 
-        $response->assertSee($like->movie->title);
+        $response->assertSee($like->updated_at->toISOString());
 
 
         $this->assertNull($response->json('data.relationships.likes.data'));

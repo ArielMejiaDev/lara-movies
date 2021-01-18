@@ -170,7 +170,7 @@ class MovieIndexTest extends TestCase
     /** @test */
     public function it_test_index_cannot_be_filter_by_an_invalid_filter()
     {
-        $movies = Movie::factory()->times(2)->create();
+        Movie::factory()->times(2)->create();
 
         $route = route('api:v1:movies.index', [
             'filter[someColumn]' => 'Any unrelated text',
@@ -376,7 +376,7 @@ class MovieIndexTest extends TestCase
     /** @test */
     public function it_test_index_can_be_filter_by_availability_only_by_admins()
     {
-        $movies = Movie::factory()->times(10)->create();
+        Movie::factory()->times(10)->create();
 
         Passport::actingAs(User::factory()->admin()->create());
 

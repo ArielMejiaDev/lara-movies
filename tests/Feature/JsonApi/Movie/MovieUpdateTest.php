@@ -23,9 +23,9 @@ class MovieUpdateTest extends TestCase
         $response = $this->jsonApi()
             ->withJson([
                 'data' => [
-                    "type" => "movies",
-                    "id" => $movie->id,
-                    "attributes" => [
+                    'type' => 'movies',
+                    'id' => $movie->id,
+                    'attributes' => [
                         'title' => '',
                         'description' => '',
                         'image' => '',
@@ -51,9 +51,9 @@ class MovieUpdateTest extends TestCase
         $response = $this->jsonApi()
             ->withJson([
                 'data' => [
-                    "type" => "movies",
-                    "id" => $movie->id,
-                    "attributes" => [
+                    'type' => 'movies',
+                    'id' => $movie->id,
+                    'attributes' => [
                         'title' => '',
                         'description' => '',
                         'image' => '',
@@ -86,9 +86,9 @@ class MovieUpdateTest extends TestCase
         $response = $this->jsonApi()
             ->withJson([
                 'data' => [
-                    "type" => "movies",
-                    "id" => $movie->id,
-                    "attributes" => [
+                    'type' => 'movies',
+                    'id' => $movie->id,
+                    'attributes' => [
                         'title' => $title,
                         'description' => $description,
                         'image' => $image,
@@ -127,9 +127,9 @@ class MovieUpdateTest extends TestCase
         $response = $this->jsonApi()
             ->withJson([
                 'data' => [
-                    "type" => "movies",
-                    "id" => $movie->id,
-                    "attributes" => [
+                    'type' => 'movies',
+                    'id' => $movie->id,
+                    'attributes' => [
                         'title' => $movie->title,
                     ]
                 ]
@@ -160,9 +160,9 @@ class MovieUpdateTest extends TestCase
         $response = $this->jsonApi()
             ->withJson([
                 'data' => [
-                    "type" => "movies",
-                    "id" => $movie->id,
-                    "attributes" => [
+                    'type' => 'movies',
+                    'id' => $movie->id,
+                    'attributes' => [
                         'title' => $title,
                         'description' => $description,
                         'image' => $image,

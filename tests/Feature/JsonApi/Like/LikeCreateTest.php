@@ -13,7 +13,6 @@ use Tests\TestCase;
 
 class LikeCreateTest extends TestCase
 {
-
     use RefreshDatabase, WithFaker;
 
     /** @test */
@@ -41,7 +40,7 @@ class LikeCreateTest extends TestCase
     {
         $route = route('api:v1:likes.create');
 
-        $movie = Movie::factory()->hasLikes(1)->create();
+        Movie::factory()->hasLikes(1)->create();
 
         $user = User::factory()->create();
 
@@ -62,8 +61,8 @@ class LikeCreateTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $response->assertSee([
-            "detail" => "The user already liked the movie.",
-            "pointer" => "\/data\/attributes\/user_id",
+            'detail' => 'The user already liked the movie.',
+            'pointer' => '\/data\/attributes\/user_id',
         ]);
     }
 
@@ -72,7 +71,7 @@ class LikeCreateTest extends TestCase
     {
         $route = route('api:v1:likes.create');
 
-        $movie = Movie::factory()->create();
+        Movie::factory()->create();
 
         $user = User::factory()->create();
 
@@ -91,9 +90,9 @@ class LikeCreateTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $response->assertSee([
-            "pointer" => "\/data\/attributes\/user_id",
+            'pointer' => '\/data\/attributes\/user_id',
         ])->assertSee([
-            "pointer" => "\/data\/attributes\/movie_id",
+            'pointer' => '\/data\/attributes\/movie_id',
         ]);
     }
 
@@ -102,7 +101,7 @@ class LikeCreateTest extends TestCase
     {
         $route = route('api:v1:likes.create');
 
-        $movie = Movie::factory()->create();
+        Movie::factory()->create();
 
         $user = User::factory()->create();
 
@@ -121,9 +120,9 @@ class LikeCreateTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $response->assertSee([
-            "pointer" => "\/data\/attributes\/user_id",
+            'pointer' => '\/data\/attributes\/user_id',
         ])->assertSee([
-            "pointer" => "\/data\/attributes\/movie_id",
+            'pointer' => '\/data\/attributes\/movie_id',
         ]);
     }
 

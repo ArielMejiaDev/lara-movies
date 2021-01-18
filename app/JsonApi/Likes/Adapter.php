@@ -24,6 +24,11 @@ class Adapter extends AbstractAdapter
      */
     protected $filterScopes = [];
 
+    protected $includePaths = [
+        'users' => 'user',
+        'movies' => 'movie'
+    ];
+
     /**
      * Adapter constructor.
      *
@@ -42,6 +47,16 @@ class Adapter extends AbstractAdapter
     protected function filter($query, Collection $filters)
     {
         $this->filterWithScopes($query, $filters);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo('user');
+    }
+
+    public function movies()
+    {
+        return $this->belongsTo('movie');
     }
 
 }
