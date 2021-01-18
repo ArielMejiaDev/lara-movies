@@ -111,6 +111,11 @@ class Movie extends Model
         return $this->hasMany(Purchase::class);
     }
 
+    public function rentals()
+    {
+        return $this->hasMany(Rent::class);
+    }
+
     public function liked()
     {
         return $this->likes()->where('user_id', optional(request()->user('api'))->id)->count();

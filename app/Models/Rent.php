@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Rent extends Model
 {
+    const PENALTY_FEE = 10;
+
     use HasFactory;
 
     /**
@@ -39,7 +42,7 @@ class Rent extends Model
     protected $fillable = [
         'movie_id',
         'user_id',
-        'rental_limit_at',
+        'days_of_rent',
     ];
 
     /**
@@ -51,9 +54,48 @@ class Rent extends Model
         'id' => 'integer',
         'movie_id' => 'integer',
         'user_id' => 'integer',
-        'rental_limit_at' => 'timestamp',
     ];
 
+    /**
+     * @return Carbon
+     */
+    public function getDayToReturnMovieAttribute()
+    {
+        return Carbon::createFromTimeString($this->attributes['created_at'])->addDays($this->attributes['days_of_rent']);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPenaltyDaysAttribute()
+    {
+        $from = $this->getDayToReturnMovieAttribute();
+        $to = now();
+
+        return $from->diffInDays($to, false);
+    }
+
+    /**
+     * @return bool
+     */
+    public function applyPenalty()
+    {
+        if($this->getPenaltyDaysAttribute() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return float|int|string
+     */
+    public function getPenaltyAttribute()
+    {
+        if($this->applyPenalty()) {
+            return $this->getPenaltyDaysAttribute() * self::PENALTY_FEE;
+        }
+        return 'no penalty';
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -70,6 +70,7 @@ return [
         'movies' => \App\Models\Movie::class,
         'likes' => \App\Models\Like::class,
         'purchases' => \App\Models\Purchase::class,
+        'rentals' => \App\Models\Rent::class,
     ],
 
     /*

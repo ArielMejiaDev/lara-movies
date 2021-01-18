@@ -111,17 +111,11 @@ class MovieSeeder extends Seeder
         ]);
 
         $moviesData->each(function($movie) {
-            Movie::factory()->hasPurchases(1)->hasLikes(10)->create([
+            Movie::factory()->hasPurchases(1)->hasRentals(1)->hasLikes(10)->create([
                 'title' => $movie['title'],
                 'image' => $movie['image'],
                 'stock' => 3,
             ]);
         });
-
-//        $movies = Movie::factory()->hasPurchases(3)->count(25)->create();
-//
-//        $movies->each(function ($movie) {
-//            $movie->likes()->create(['user_id' => User::inRandomOrder()->first()->id]);
-//        });
     }
 }

@@ -27,7 +27,7 @@ class RentFactory extends Factory
         return [
             'movie_id' => Movie::factory(),
             'user_id' => User::factory(),
-            'rental_limit_at' => $this->faker->dateTime(),
+            'days_of_rent' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

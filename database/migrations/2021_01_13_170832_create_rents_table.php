@@ -19,7 +19,7 @@ class CreateRentsTable extends Migration
             $table->id();
             $table->foreignId('movie_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('rental_limit_at');
+            $table->integer('days_of_rent');
             $table->timestamps();
         });
 

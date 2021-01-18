@@ -28,4 +28,9 @@ JsonApi::register('v1')->routes(function($api) {
         $api->hasOne('movies')->except('replace');
         $api->hasOne('users')->except('replace');
     });
+
+    $api->resource('rentals')->except('update', 'delete')->relationships(function ($api) {
+        $api->hasOne('movies')->except('replace');
+        $api->hasOne('users')->except('replace');
+    });
 });
