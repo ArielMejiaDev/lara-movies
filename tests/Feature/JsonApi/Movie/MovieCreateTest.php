@@ -147,7 +147,14 @@ class MovieCreateTest extends TestCase
         $response->assertCreated();
         $response->assertJsonStructure([]);
 
-        $this->assertDatabaseHas('movies', $movie);
+        $this->assertEquals(Movie::first()->title, $movie['title']);
+
+        $response->assertJson([
+            'data' => [
+                'type' => 'movies',
+                'id' => 1,
+            ]
+        ]);
     }
 
 }

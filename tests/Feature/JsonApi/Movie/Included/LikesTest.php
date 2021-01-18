@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class LikesTest extends TestCase
 {
-
     use RefreshDatabase, WithFaker;
 
     /** @test */

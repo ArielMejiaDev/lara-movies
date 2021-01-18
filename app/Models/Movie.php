@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
+ * App\Models\Movie
+ *
  * @property int $id
  * @property string $title
  * @property string $description
@@ -18,6 +20,26 @@ use Illuminate\Support\Str;
  * @property bool $availability
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $likes
+ * @property-read int|null $likes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Purchase[] $purchases
+ * @property-read int|null $purchases_count
+ * @method static Builder|Movie availability($value)
+ * @method static Builder|Movie newModelQuery()
+ * @method static Builder|Movie newQuery()
+ * @method static Builder|Movie query()
+ * @method static Builder|Movie title($value)
+ * @method static Builder|Movie whereAvailability($value)
+ * @method static Builder|Movie whereCreatedAt($value)
+ * @method static Builder|Movie whereDescription($value)
+ * @method static Builder|Movie whereId($value)
+ * @method static Builder|Movie whereImage($value)
+ * @method static Builder|Movie whereRentalPrice($value)
+ * @method static Builder|Movie whereSalePrice($value)
+ * @method static Builder|Movie whereStock($value)
+ * @method static Builder|Movie whereTitle($value)
+ * @method static Builder|Movie whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Movie extends Model
 {
@@ -57,6 +79,26 @@ class Movie extends Model
     public function scopeAvailability(Builder $query, $value)
     {
         $query->where('availability', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+    }
+
+    public function getRentalPriceAttribute()
+    {
+        return number_format($this->attributes['rental_price'] / 100, 2);
+    }
+
+    public function setRentalPriceAttribute($value)
+    {
+        $this->attributes['rental_price'] = $value * 100;
+    }
+
+    public function getSalePriceAttribute()
+    {
+        return number_format($this->attributes['sale_price'] / 100, 2);
+    }
+
+    public function setSalePriceAttribute($value)
+    {
+        $this->attributes['sale_price'] = $value * 100;
     }
 
     public function likes()

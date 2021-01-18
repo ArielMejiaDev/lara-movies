@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class MovieShowTest extends TestCase
 {
-
     use RefreshDatabase, WithFaker;
 
     /** @test */

@@ -13,7 +13,6 @@ use Tests\TestCase;
 
 class MovieIndexTest extends TestCase
 {
-
     use RefreshDatabase, WithFaker;
 
     /** @test */
@@ -185,6 +184,8 @@ class MovieIndexTest extends TestCase
     /** @test */
     public function it_test_index_can_be_filter_by_availability()
     {
+        Passport::actingAs(User::factory()->admin()->create());
+
         $movies = [
             Movie::factory()->create([
                 'availability' => true,
@@ -240,6 +241,8 @@ class MovieIndexTest extends TestCase
     /** @test */
     public function it_test_index_can_be_filter_by_availability_with_truly_and_falsy_values()
     {
+        Passport::actingAs(User::factory()->admin()->create());
+
         $movies = [
             Movie::factory()->create([
                 'availability' => true,
@@ -295,6 +298,8 @@ class MovieIndexTest extends TestCase
     /** @test */
     public function it_test_index_can_be_filter_by_availability_with_string_values()
     {
+        Passport::actingAs(User::factory()->admin()->create());
+
         $movies = [
             Movie::factory()->create([
                 'availability' => false,
@@ -348,7 +353,7 @@ class MovieIndexTest extends TestCase
     }
 
     /** @test */
-    public function it_test_index_cannot_be_filter_by_unauthenticated_request()
+    public function it_test_index_cannot_be_filter_by_availability_unauthenticated_request()
     {
         Movie::factory()->times(10)->create();
 
@@ -356,7 +361,21 @@ class MovieIndexTest extends TestCase
 
         $response = $this->jsonApi()->get($route);
 
-        $response->assertOk();
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    /** @test */
+    public function it_test_index_cannot_be_filter_by_availability_unauthorized_request()
+    {
+        Passport::actingAs(User::factory()->guest()->create());
+
+        Movie::factory()->times(10)->create();
+
+        $route = route('api:v1:movies.index', ['filter[availability]' => false]);
+
+        $response = $this->jsonApi()->get($route);
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /** @test */

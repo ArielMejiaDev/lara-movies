@@ -18,14 +18,7 @@ class MoviePolicy
      */
     public function viewAny(User $user)
     {
-        if($this->isApplyingAvailableFilter()) {
-            return $user->isAdmin();
-        }
-    }
-
-    protected function isApplyingAvailableFilter()
-    {
-        return array_key_exists('availability', request('filter'));
+        return optional(\request()->user('api'))->isAdmin();
     }
 
     /**

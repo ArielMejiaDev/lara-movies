@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 class MovieUpdateTest extends TestCase
 {
-
     use RefreshDatabase, WithFaker;
 
     /** @test */
@@ -153,8 +152,8 @@ class MovieUpdateTest extends TestCase
         $description = $this->faker->text;
         $image = $this->faker->word;
         $stock = $this->faker->numberBetween(25, 50);
-        $rental_price = $this->faker->word;
-        $sale_price = $this->faker->word;
+        $rental_price = $this->faker->numberBetween(5, 15);
+        $sale_price = $this->faker->numberBetween(30, 60);
         $availability = $this->faker->boolean;
 
         $response = $this->jsonApi()
@@ -184,8 +183,8 @@ class MovieUpdateTest extends TestCase
         $this->assertEquals($description, $movie->description);
         $this->assertEquals($image, $movie->image);
         $this->assertEquals($stock, $movie->stock);
-        $this->assertEquals($rental_price, $movie->rental_price);
-        $this->assertEquals($sale_price, $movie->sale_price);
+        $this->assertEquals(number_format($rental_price, 2), $movie->rental_price);
+        $this->assertEquals(number_format($sale_price, 2), $movie->sale_price);
         $this->assertEquals($availability, $movie->availability);
     }
 

@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 class MovieDeleteTest extends TestCase
 {
-
     use RefreshDatabase, WithFaker;
 
     /** @test */

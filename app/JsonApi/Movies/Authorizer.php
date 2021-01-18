@@ -6,6 +6,8 @@ use CloudCreativity\LaravelJsonApi\Auth\AbstractAuthorizer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class Authorizer extends AbstractAuthorizer
 {
@@ -19,17 +21,26 @@ class Authorizer extends AbstractAuthorizer
      *      the inbound request.
      * @return void
      * @throws AuthorizationException if the request is not authorized.
+     * @throws AuthenticationException
      */
     public function index($type, $request)
     {
-        if(auth()->check()) {
-            $this->authorize('viewAny', $type);
+        if(\request()->has('filter.availability')) {
+            $this->authenticateAUserManually();
+            $this->can('viewAny', $type);
         }
     }
 
-    public function availabilityFilterIsPresent()
+    /**
+     * Index route cannot use middleware auth:api, because anyone could access to movies index without filters by availability
+     * So, if the request has a Bearer token, I will grab the token and get the user and authenticate user manually
+     * If token is not present, helper "can" will execute an authenticate method and return a 401 status error formatted as expected.
+     */
+    public function authenticateAUserManually()
     {
-        return array_key_exists('availability', request('filter'));
+        if(\auth()->check() === false && \request()->user('api')) {
+            Auth::loginUsingId(\request()->user('api')->id, TRUE);
+        }
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Tests\Feature\JsonApi\Purchase;
 
 use App\Models\Movie;
-use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
