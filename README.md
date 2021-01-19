@@ -6,7 +6,7 @@ A project created to show my skills creating a Json Api with Laravel 8.
 
 ## 📺 Screencast
 
-I added a screencast showing all features of the project: [here](https://www.loom.com/share/5904eecdd4d6418f9f88bb922caa60a8)
+I added a screencast showing all features of the project: <a href="https://www.loom.com/share/5904eecdd4d6418f9f88bb922caa60a8" target="_blank">Here</a>
 
 ## 🚀 Start
 
