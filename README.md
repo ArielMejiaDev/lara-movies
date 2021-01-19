@@ -9,6 +9,11 @@ A project created to show my skills creating a Json Api with Laravel 8.
 
 I added a screencast showing all features of the project: <a href="https://www.loom.com/share/5904eecdd4d6418f9f88bb922caa60a8" target="_blank">Here</a>
 
+## 📓 Postman Collection
+
+* <a href="https://www.getpostman.com/collections/18c013b8f5e24e01f8f4" target="_blank">Here the postman collection</a>
+* <a href="https://documenter.getpostman.com/preview/10679261-64b56ac4-f32f-4040-8c1c-ab8da3d3c135?environment=&versionTag=latest&apiName=CURRENT&version=latest&documentationLayout=classic-double-column&right-sidebar=303030&top-bar=FFFFFF&highlight=EF5B25" target="_blank">Here the postman docs</a>
+
 ## 🚀 Start
 
 You can download the project with git by making a clone on the project:
