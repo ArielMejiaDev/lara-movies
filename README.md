@@ -1,62 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 🍿 Laramovies
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About Laramovies
 
-## About Laravel
+A project created to show my skills creating a Json Api with Laravel 8.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Start 🚀
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+You can download the project with git by making a clone on the project:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+git clone https://github.com/ArielMejiaDev/lara-movies
+```
 
-## Learning Laravel
+Alternatively you can download using the zip button in the repo.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Pre-required 📋
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+You must have:
 
-## Laravel Sponsors
+    * A development environment (valet, homestead, sails, laragon, etc).
+    * Git installed in your OS (MacOS include it)
+    * Composer installed a link [here](https://getcomposer.org/)
+    * PHP 7.4 at least.
+    * not required, but would help to have a IDE (VSCode or PHPStorm).
+    * some email client service like [Mailtrap](https://mailtrap.io)
+    
+### Installation 🔧
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+In your terminal go to the directory of the project:
 
-### Premium Partners
+```bash
+cd lara-movies
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+Then generate a project key:
 
-## Contributing
+```php
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Create a database
 
-## Code of Conduct
+You can create a sqlite database on development/local environment, in the root directory of the project:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+cd database
+touch database.sqlite
+```
 
-## Security Vulnerabilities
+Edit the .env file
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+You would need to add some env configurations to make the project run, you would change the configurations as your own services and needs, here an example (the tokens on mail service are just an example, those are not really useful I add an example):
 
-## License
+```env
+APP_NAME="Laramovies"
+APP_ENV=local
+APP_KEY={the one that generates the command php artisan key:generate }
+APP_DEBUG=true
+APP_URL=http://lara-movie.test
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+DB_CONNECTION=sqlite
+#DB_HOST=127.0.0.1
+#DB_PORT=3306
+#DB_DATABASE=lara_movie
+#DB_USERNAME=root
+#DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=273b5ab0b87b
+MAIL_PASSWORD=a5622da6eea5
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS='app@lara-movie.com'
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+Lastly download all project dependencies:
+
+```php
+composer install
+```
+
+It would take a while (it depends on your connection).
+
+## Executing tests ⚙️
+
+The project become with 101 tests, in the root project directory, you can execute on terminal the command:
+
+```php
+php artisan test
+```
+
+## Deployment 📦
+
+I would recomend different services like [Forge](https://forge.laravel.com).
+
+But here I will add a guide to make a [deployment on Heroku for free](https://devcenter.heroku.com/articles/getting-started-with-laravel).
+
+## Built with 🛠️
+
+* [PHP](https://www.php.net/).
+* [Laravel 8](https://laravel.com).
+
+
+## Version 📌
+
+The current version of this project is 0.0.1
+
+## Author ✒️
+
+[Ariel Mejia Dev](https://github.com/ArielMejiaDev).
+
+---
+⌨️ con ❤️ por [Ariel Mejia Dev](https://github.com/ArielMejiaDev) 😊
