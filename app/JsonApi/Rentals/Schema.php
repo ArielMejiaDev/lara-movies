@@ -34,7 +34,7 @@ class Schema extends SchemaProvider
             'user_id' => $resource->user_id,
             'movie_id' => $resource->movie_id,
             'days_of_rent' => $resource->days_of_rent,
-            'day_to_return_movie' => $resource->day_to_return_movie->toISOString(),
+            'day_to_return_movie' => $resource->date_to_return_movie->toISOString(),
             'penalty' => $resource->penalty,
             'createdAt' => $resource->created_at,
             'updatedAt' => $resource->updated_at,

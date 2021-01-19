@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\PenaltyCalculator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +31,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Rent extends Model
 {
-    const PENALTY_FEE = 10;
 
     use HasFactory;
 
@@ -59,31 +59,9 @@ class Rent extends Model
     /**
      * @return Carbon
      */
-    public function getDayToReturnMovieAttribute()
+    public function getDateToReturnMovieAttribute()
     {
         return Carbon::createFromTimeString($this->attributes['created_at'])->addDays($this->attributes['days_of_rent']);
-    }
-
-    /**
-     * @return int
-     */
-    public function getPenaltyDaysAttribute()
-    {
-        $from = $this->getDayToReturnMovieAttribute();
-        $to = now();
-
-        return $from->diffInDays($to, false);
-    }
-
-    /**
-     * @return bool
-     */
-    public function applyPenalty()
-    {
-        if($this->getPenaltyDaysAttribute() > 0) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -91,10 +69,7 @@ class Rent extends Model
      */
     public function getPenaltyAttribute()
     {
-        if($this->applyPenalty()) {
-            return $this->getPenaltyDaysAttribute() * self::PENALTY_FEE;
-        }
-        return 'no penalty';
+        return (new PenaltyCalculator)->calculateFromDate($this->getDateToReturnMovieAttribute());
     }
 
     /**

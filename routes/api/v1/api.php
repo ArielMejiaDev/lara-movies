@@ -33,4 +33,6 @@ JsonApi::register('v1')->routes(function($api) {
         $api->hasOne('movies')->except('replace');
         $api->hasOne('users')->except('replace');
     });
+
+    $api->resource('users')->only('index', 'read', 'update');
 });

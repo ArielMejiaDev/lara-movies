@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\JsonApi\Rent;
 
+use App\Actions\PenaltyCalculator;
 use App\Models\Rent;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -129,7 +130,7 @@ class RentShowTest extends TestCase
     }
 
     /** @test */
-    public function it_tests__rental_show_penalty_fee()
+    public function it_tests_rental_show_penalty_fee_if_movie_returns_late()
     {
         Passport::actingAs(User::factory()->admin()->create());
 
@@ -145,10 +146,34 @@ class RentShowTest extends TestCase
 
         $route = route('api:v1:rentals.read', $rent);
 
-        $response = $this->jsonApi()->includePaths('movies,users')->get($route);
+        $response = $this->jsonApi()->get($route);
 
         $response->assertOk();
 
-        $response->assertSee(['penalty' => ($daysAgo - $daysOfRent) * Rent::PENALTY_FEE]);
+        $response->assertSee(['penalty' => ($daysAgo - $daysOfRent) * PenaltyCalculator::PENALTY_FEE]);
+    }
+
+    /** @test */
+    public function it_tests_rental_show_does_not_show_penalty_fee_if_movie_returns_at_the_time()
+    {
+        Passport::actingAs(User::factory()->admin()->create());
+
+        $daysOfRent = 5;
+
+        $daysAgo = 3;
+
+        /** @var Rent $rent */
+        $rent = Rent::factory()->create([
+            'days_of_rent' => $daysOfRent,
+            'created_at' => now()->subDays($daysAgo),
+        ]);
+
+        $route = route('api:v1:rentals.read', $rent);
+
+        $response = $this->jsonApi()->get($route);
+
+        $response->assertOk();
+
+        $response->assertSee(['penalty' => PenaltyCalculator::NO_PENALTY_TEXT]);
     }
 }

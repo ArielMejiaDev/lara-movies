@@ -2,6 +2,8 @@
 
 namespace App\JsonApi\Users;
 
+use App\Models\Role;
+use App\Models\User;
 use CloudCreativity\LaravelJsonApi\Eloquent\AbstractAdapter;
 use CloudCreativity\LaravelJsonApi\Pagination\StandardStrategy;
 use Illuminate\Database\Eloquent\Builder;
@@ -42,6 +44,18 @@ class Adapter extends AbstractAdapter
     protected function filter($query, Collection $filters)
     {
         $this->filterWithScopes($query, $filters);
+    }
+
+    // ...
+
+    /**
+     * @param User $user
+     * @param $resource
+     * @return void
+     */
+    protected function updating(User $user, $resource)
+    {
+        $user->role_id = Role::firstOrCreate(['name' => 'Admin'])->id;
     }
 
 }

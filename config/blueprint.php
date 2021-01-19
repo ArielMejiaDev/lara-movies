@@ -64,7 +64,7 @@ return [
     | within the generated migration. This will relate these records
     | together to add structure and integrity to your database.
     |
-    | In addition, you may specify the action to perform `ON DELETE`. By
+    | In addition, you may specify the Actions to perform `ON DELETE`. By
     | default Blueprint will use `cascade`. However, you may set this
     | to 'restrict', 'no_action', or 'null' as well as inline
     | by defining your `foreign` key column with an `onDelete`.

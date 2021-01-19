@@ -3,6 +3,7 @@
 namespace App\JsonApi\Users;
 
 use CloudCreativity\LaravelJsonApi\Validation\AbstractValidators;
+use Illuminate\Validation\Rule;
 
 class Validators extends AbstractValidators
 {
@@ -43,7 +44,7 @@ class Validators extends AbstractValidators
     protected function rules($record, array $data): array
     {
         return [
-            //
+            'user_id' => ['required', Rule::unique('users', 'id')->ignore($record->id)],
         ];
     }
 

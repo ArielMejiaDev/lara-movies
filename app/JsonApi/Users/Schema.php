@@ -31,7 +31,8 @@ class Schema extends SchemaProvider
     {
         return [
             'name' => $resource->name,
-            'email' => $resource->name,
+            'email' => $resource->email,
+            'role' => $resource->role->name,
         ];
     }
 }
