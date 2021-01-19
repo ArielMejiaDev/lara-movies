@@ -76,13 +76,25 @@ MAIL_FROM_ADDRESS='app@lara-movie.com'
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-Lastly download all project dependencies:
+Download all project dependencies:
 
 ```php
 composer install
 ```
 
 It would take a while (it depends on your connection).
+
+Migrate the database, I also add seeders to test with fake data.
+
+```php
+php artisan migrate:fresh --seed
+```
+
+Lastly the project use Passport to authenticate via JWT, so you need to run the command:
+
+```php
+php artisan passport:install
+```
 
 ## Executing tests ⚙️
 
