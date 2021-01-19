@@ -4,7 +4,11 @@
 
 A project created to show my skills creating a Json Api with Laravel 8.
 
-## Start 🚀
+## 📺 Screencast
+
+I added a screencast showing all features of the project: [here](https://www.loom.com/share/5904eecdd4d6418f9f88bb922caa60a8)
+
+## 🚀 Start
 
 You can download the project with git by making a clone on the project:
 
@@ -14,7 +18,7 @@ git clone https://github.com/ArielMejiaDev/lara-movies
 
 Alternatively you can download using the zip button in the repo.
 
-### Pre-required 📋
+### 📋 Pre-required
 
 You must have:
 
@@ -25,7 +29,7 @@ You must have:
     * not required, but would help to have a IDE (VSCode or PHPStorm).
     * some email client service like [Mailtrap](https://mailtrap.io)
     
-### Installation 🔧
+### 🔧 Installation 
 
 In your terminal go to the directory of the project:
 
@@ -96,7 +100,7 @@ Lastly the project use Passport to authenticate via JWT, so you need to run the 
 php artisan passport:install
 ```
 
-## Executing tests ⚙️
+## ⚙️ Executing tests 
 
 The project become with 101 tests, in the root project directory, you can execute on terminal the command:
 
@@ -104,23 +108,23 @@ The project become with 101 tests, in the root project directory, you can execut
 php artisan test
 ```
 
-## Deployment 📦
+## 📦 Deployment 
 
 I would recomend different services like [Forge](https://forge.laravel.com).
 
 But here I will add a guide to make a [deployment on Heroku for free](https://devcenter.heroku.com/articles/getting-started-with-laravel).
 
-## Built with 🛠️
+## 🛠️ Built with 
 
 * [PHP](https://www.php.net/).
 * [Laravel 8](https://laravel.com).
 
 
-## Version 📌
+## 📌 Version 
 
 The current version of this project is 0.0.1
 
-## Author ✒️
+## ✒️ Author 
 
 [Ariel Mejia Dev](https://github.com/ArielMejiaDev).
 
