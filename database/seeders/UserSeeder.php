@@ -18,14 +18,17 @@ class UserSeeder extends Seeder
             'name' => 'Ariel',
             'email' => 'arielmejiadev@gmail.com',
             'password' => bcrypt('password'),
+            'email_verified_at' => null,
         ]);
 
         User::factory()->admin()->create([
             'email' => 'admin@mail.com',
+            'email_verified_at' => null,
         ]);
 
         User::factory()->guest()->create([
             'email' => 'guest@mail.com',
+            'email_verified_at' => null,
         ]);
 
         User::factory()->times(10)->guest()->create();

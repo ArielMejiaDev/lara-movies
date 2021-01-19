@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\ResetPasswordLinkController;
 use App\Http\Controllers\Api\Auth\ShowUserController;
+use App\Http\Controllers\Api\Auth\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,3 +44,19 @@ Route::get('/reset/{token}', ResetPasswordLinkController::class)
 
 Route::get('/logout', LogoutController::class)
     ->name('logout');
+
+Route::get('/verify-email', EmailVerificationPromptController::class)->middleware('auth:api')->name('verification.notice');
+
+Route::get('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+
+
+// test route to show that the verified middleware works!
+Route::get('/verified-only', function(Request $request){
+
+    return response()->json([
+        'message' => $request->user()->name. ' you are verified!',
+    ], 200);
+
+})->middleware('auth:api','verified')->name('verified-only');
